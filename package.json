@@ -1,0 +1,28 @@
+{
+  "name": "al3alm",
+  "version": "1.0.0",
+  "description": "موقع تتبع إنجاز الطلاب في القرآن والمتون",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cd my-react-app && npm run dev",
+    "build": "cd my-react-app && npm run build",
+    "preview": "cd my-react-app && npm run preview",
+    "lint": "cd my-react-app && npm run lint",
+    "install-all": "npm install && cd my-react-app && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saifQunaiby1000/al3alm.git"
+  },
+  "keywords": [
+    "react",
+    "vite",
+    "students",
+    "quran",
+    "mutoon"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
