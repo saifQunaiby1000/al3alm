@@ -1,0 +1,728 @@
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  background: #1a1a2e;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(251, 191, 36, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.1) 0%, transparent 60%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  background-attachment: fixed;
+  padding: 1rem;
+  direction: rtl;
+  font-family: 'Amiri', 'Arabic Typesetting', 'Traditional Arabic', serif;
+  position: relative;
+}
+
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* Header - محسّن للجوال */
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header::before,
+.header::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: normal;
+}
+
+.header::before {
+  right: 10%;
+}
+
+.header::after {
+  left: 10%;
+}
+
+@media (max-width: 768px) {
+  .header::before,
+  .header::after {
+    display: none;
+  }
+}
+
+.logo-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-image {
+  max-width: 150px;
+  max-height: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.4rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Amiri', serif;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  margin: 0;
+  font-family: 'Amiri', serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Grid - تصميم للجوال أولاً */
+.students-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Cards - تصميم فريد ومميز */
+.student-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 24px;
+  padding: 0;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+  backdrop-filter: blur(20px);
+  transform-style: preserve-3d;
+}
+
+/* زخرفة هندسية كبيرة في الخلفية */
+.student-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 30% 30%, currentColor 2px, transparent 2px);
+  background-size: 40px 40px, 80px 80px;
+  opacity: 0.15;
+  transform: rotate(45deg);
+  z-index: 0;
+  transition: transform 0.6s ease, opacity 0.4s ease;
+}
+
+/* شكل هندسي في الزاوية العلوية */
+.student-card::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  opacity: 0.08;
+  z-index: 0;
+  transition: all 0.4s ease;
+}
+
+.student-card.green::before,
+.student-card.green::after {
+  color: #22c55e;
+}
+
+.student-card.yellow::before,
+.student-card.yellow::after {
+  color: #fbbf24;
+}
+
+.student-card.red::before,
+.student-card.red::after {
+  color: #ef4444;
+}
+
+/* شريط علوي ملون */
+.student-card .color-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  z-index: 3;
+  transition: height 0.3s ease;
+}
+
+.student-card.green .color-bar {
+  background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.5);
+}
+
+.student-card.yellow .color-bar {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.5);
+}
+
+.student-card.red .color-bar {
+  background: linear-gradient(90deg, #ef4444, #dc2626, #b91c1c);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
+}
+
+/* محتوى الكارد */
+.card-inner {
+  padding: 1.5rem;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border-radius: 24px;
+}
+
+/* أخضر - ممتاز */
+.student-card.green {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 50%, #dcfce7 100%);
+}
+
+.student-card.green:active {
+  transform: scale(0.97);
+}
+
+.student-card.green:active .color-bar {
+  height: 8px;
+}
+
+.student-card.green:active::before {
+  transform: rotate(45deg) scale(1.1);
+  opacity: 0.2;
+}
+
+.student-card.green:active::after {
+  transform: scale(1.2);
+  opacity: 0.12;
+}
+
+/* أصفر - متوسط */
+.student-card.yellow {
+  border-color: rgba(251, 191, 36, 0.3);
+  background: linear-gradient(135deg, #ffffff 0%, #fffbeb 50%, #fef3c7 100%);
+}
+
+.student-card.yellow:active {
+  transform: scale(0.97);
+}
+
+.student-card.yellow:active .color-bar {
+  height: 8px;
+}
+
+.student-card.yellow:active::before {
+  transform: rotate(45deg) scale(1.1);
+  opacity: 0.2;
+}
+
+.student-card.yellow:active::after {
+  transform: scale(1.2);
+  opacity: 0.12;
+}
+
+/* أحمر - قليل */
+.student-card.red {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: linear-gradient(135deg, #ffffff 0%, #fef2f2 50%, #fee2e2 100%);
+}
+
+.student-card.red:active {
+  transform: scale(0.97);
+}
+
+.student-card.red:active .color-bar {
+  height: 8px;
+}
+
+.student-card.red:active::before {
+  transform: rotate(45deg) scale(1.1);
+  opacity: 0.2;
+}
+
+.student-card.red:active::after {
+  transform: scale(1.2);
+  opacity: 0.12;
+}
+
+/* Card Header - تصميم فريد */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(90deg, transparent, currentColor, transparent) 1;
+  position: relative;
+  z-index: 3;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.student-card.green .card-header {
+  border-image-source: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.3), transparent);
+}
+
+.student-card.yellow .card-header {
+  border-image-source: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+}
+
+.student-card.red .card-header {
+  border-image-source: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.3), transparent);
+}
+
+/* زخرفة هندسية في الـ header */
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 40px;
+  height: 3px;
+  background: currentColor;
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+.student-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  font-family: 'Amiri', serif;
+  letter-spacing: 0.3px;
+  flex: 1;
+  min-width: 150px;
+  position: relative;
+  padding-right: 0.5rem;
+}
+
+.student-name::before {
+  content: '▸';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  opacity: 0.3;
+  color: currentColor;
+}
+
+.status-badge {
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: white;
+  font-family: 'Amiri', serif;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-badge::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.status-badge.green {
+  background: linear-gradient(135deg, #22c55e, #16a34a, #15803d);
+  box-shadow: 
+    0 4px 20px rgba(34, 197, 94, 0.4),
+    0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+}
+
+.status-badge.yellow {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+  box-shadow: 
+    0 4px 20px rgba(251, 191, 36, 0.4),
+    0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+}
+
+.status-badge.red {
+  background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);
+  box-shadow: 
+    0 4px 20px rgba(239, 68, 68, 0.4),
+    0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+}
+
+/* Card Content */
+.card-content {
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 0.75rem;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-item.required {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 1rem;
+  border-radius: 16px;
+  margin-top: 0.75rem;
+  border: 2px dashed rgba(0, 0, 0, 0.12);
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-item.required::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+}
+
+.info-label {
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.9rem;
+  font-family: 'Amiri', serif;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 1.05rem;
+  font-family: 'Amiri', serif;
+  text-align: left;
+}
+
+/* Progress Section - تصميم فريد */
+.progress-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 3px solid;
+  border-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent) 1;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-section::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.2;
+}
+
+.progress-item {
+  margin-bottom: 1rem;
+}
+
+.progress-item:last-child {
+  margin-bottom: 0;
+}
+
+.progress-item span {
+  display: block;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  font-family: 'Amiri', serif;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 16px;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 
+    inset 0 2px 6px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.progress-fill.quran {
+  background: linear-gradient(90deg, #3b82f6, #2563eb, #1d4ed8);
+  box-shadow: 
+    0 2px 10px rgba(59, 130, 246, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.progress-fill.mutoon {
+  background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+  box-shadow: 
+    0 2px 10px rgba(34, 197, 94, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Tablet - تابلت */
+@media (min-width: 481px) and (max-width: 768px) {
+  .app {
+    padding: 1.25rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+  }
+
+  .logo-image {
+    max-width: 180px;
+    max-height: 130px;
+  }
+
+  .students-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .student-card {
+    padding: 1.5rem;
+  }
+
+  .student-name {
+    font-size: 1.5rem;
+  }
+}
+
+/* Desktop - لابتوب */
+@media (min-width: 769px) {
+  .app {
+    padding: 2rem;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .logo-image {
+    max-width: 200px;
+    max-height: 150px;
+  }
+
+  .logo-image:hover {
+    transform: scale(1.05);
+  }
+
+  .students-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+  }
+
+  .student-card {
+    padding: 1.75rem;
+    border-radius: 20px;
+  }
+
+  .student-card:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  .student-card.green:hover {
+    box-shadow: 0 20px 50px rgba(13, 148, 136, 0.25), 
+                0 0 0 1px rgba(13, 148, 136, 0.15);
+    border-color: rgba(13, 148, 136, 0.5);
+  }
+
+  .student-card.green:hover::after {
+    opacity: 1;
+  }
+
+  .student-card.green:hover::before {
+    height: 8px;
+    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.5);
+  }
+
+  .student-card.yellow:hover {
+    box-shadow: 0 20px 50px rgba(217, 119, 6, 0.25),
+                0 0 0 1px rgba(217, 119, 6, 0.15);
+    border-color: rgba(217, 119, 6, 0.5);
+  }
+
+  .student-card.yellow:hover::after {
+    opacity: 1;
+  }
+
+  .student-card.yellow:hover::before {
+    height: 8px;
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+  }
+
+  .student-card.red:hover {
+    box-shadow: 0 20px 50px rgba(220, 38, 38, 0.25),
+                0 0 0 1px rgba(220, 38, 38, 0.15);
+    border-color: rgba(220, 38, 38, 0.5);
+  }
+
+  .student-card.red:hover::after {
+    opacity: 1;
+  }
+
+  .student-card.red:hover::before {
+    height: 8px;
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+  }
+
+  .student-name {
+    font-size: 1.5rem;
+  }
+
+  .status-badge {
+    padding: 0.55rem 1.1rem;
+    font-size: 0.85rem;
+  }
+
+  .status-badge:hover {
+    transform: translateY(-2px);
+  }
+
+  .status-badge.green:hover {
+    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.5);
+  }
+
+  .status-badge.yellow:hover {
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+  }
+
+  .status-badge.red:hover {
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+  }
+
+  .info-label {
+    font-size: 0.95rem;
+  }
+
+  .info-value {
+    font-size: 1.1rem;
+  }
+
+  .progress-item span {
+    font-size: 0.9rem;
+  }
+
+  .progress-bar {
+    height: 12px;
+  }
+}
+
+/* Large Desktop - شاشات كبيرة */
+@media (min-width: 1200px) {
+  .students-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
